@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | IESP</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(35, 68, 143, 0.12),
+                    transparent 35%
+                ),
+                #f4f7fb;
+
+            color: #172b4d;
+        }
+
+
+        /* ================= MAIN WRAPPER ================= */
+
+        .login-wrapper {
+
+            width: 92%;
+            max-width: 950px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            background: white;
+
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 15px 45px rgba(23, 43, 77, 0.15);
+        }
+
+
+        /* ================= LEFT SIDE ================= */
+
+        .login-left {
+
+            padding: 55px 45px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #172b4d,
+                    #23448f,
+                    #1d5d8f
+                );
+
+            color: white;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .login-left::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 230px;
+            height: 230px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.08);
+
+            top: -80px;
+            right: -70px;
+        }
+
+
+        .login-left::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.06);
+
+            bottom: -80px;
+            left: -60px;
+        }
+
+
+        .logo {
+
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            margin-bottom: 35px;
+
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .logo-icon {
+
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255,255,255,0.15);
+
+            border-radius: 14px;
+
+            font-size: 27px;
+        }
+
+
+        .logo h2 {
+
+            margin: 0;
+
+            font-size: 27px;
+        }
+
+
+        .logo p {
+
+            margin: 3px 0 0;
+
+            font-size: 12px;
+
+            color: #dbe7ff;
+        }
+
+
+        .login-left h1 {
+
+            margin: 0 0 15px;
+
+            font-size: 38px;
+
+            line-height: 1.2;
+
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .login-left .description {
+
+            color: #dbe7ff;
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            max-width: 380px;
+
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .features {
+
+            margin-top: 30px;
+
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .feature {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+
+            font-size: 14px;
+
+            color: #edf3ff;
+        }
+
+
+        .feature-icon {
+
+            width: 28px;
+            height: 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255,255,255,0.14);
+
+            border-radius: 8px;
+        }
+
+
+        /* ================= RIGHT SIDE ================= */
+
+        .login-right {
+
+            padding: 50px 55px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+
+        .login-right h2 {
+
+            margin: 0;
+
+            font-size: 28px;
+
+            color: #172b4d;
+        }
+
+
+        .subtitle {
+
+            margin: 8px 0 30px;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        /* ================= MESSAGES ================= */
+
+        .message {
+
+            background: #d1e7dd;
+
+            color: #0f5132;
+
+            padding: 12px 14px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+        }
+
+
+        .error {
+
+            background: #f8d7da;
+
+            color: #842029;
+
+            padding: 12px 14px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+        }
+
+
+        /* ================= FORM ================= */
+
+        .form-group {
+
+            margin-bottom: 20px;
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #172b4d;
+        }
+
+
+        .input-wrapper {
+
+            position: relative;
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 14px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 16px;
+
+            color: #64748b;
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 13px 14px 13px 42px;
+
+            border: 1px solid #d8e0eb;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            color: #172b4d;
+
+            background: #fbfcfe;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+
+        input:focus {
+
+            border-color: #23448f;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 3px rgba(35,68,143,0.10);
+        }
+
+
+        input::placeholder {
+
+            color: #94a3b8;
+        }
+
+
+        /* ================= LOGIN BUTTON ================= */
+
+        .login-button {
+
+            width: 100%;
+
+            border: none;
+
+            padding: 14px;
+
+            margin-top: 5px;
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #23448f,
+                    #1d5d8f
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            box-shadow:
+                0 5px 15px rgba(35,68,143,0.20);
+        }
+
+
+        .login-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(35,68,143,0.30);
+        }
+
+
+        /* ================= REGISTER ================= */
+
+        .register-link {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            font-size: 14px;
+
+            color: #64748b;
+        }
+
+
+        .register-link a {
+
+            color: #23448f;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+            margin-left: 4px;
+        }
+
+
+        .register-link a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            .login-wrapper {
+
+                grid-template-columns: 1fr;
+
+                max-width: 500px;
+            }
+
+            .login-left {
+
+                padding: 35px;
+
+                text-align: center;
+            }
+
+            .logo {
+
+                justify-content: center;
+            }
+
+            .login-left h1 {
+
+                font-size: 30px;
+            }
+
+            .description {
+
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .features {
+
+                display: none;
+            }
+
+            .login-right {
+
+                padding: 40px 35px;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            body {
+
+                padding: 20px;
+            }
+
+            .login-wrapper {
+
+                width: 100%;
+
+                border-radius: 16px;
+            }
+
+            .login-left {
+
+                padding: 30px 25px;
+            }
+
+            .login-left h1 {
+
+                font-size: 26px;
+            }
+
+            .login-right {
+
+                padding: 30px 25px;
+            }
+
+            .login-right h2 {
+
+                font-size: 24px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-wrapper">
+
+
+    <!-- ================= LEFT SECTION ================= -->
+
+    <div class="login-left">
+
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🎓
+            </div>
+
+            <div>
+
+                <h2>IESP</h2>
+
+                <p>
+                    Interview & Employment Support Platform
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <h1>
+            Welcome 👋
+        </h1>
+
+
+        <p class="description">
+
+            Continue your interview preparation journey,
+            explore real interview experiences, practice
+            questions and get AI-powered assistance.
+
+        </p>
+
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🎤
+                </div>
+
+                <span>
+                    Real Interview Experiences
+                </span>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    📚
+                </div>
+
+                <span>
+                    Technical & HR Question Bank
+                </span>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🤖
+                </div>
+
+                <span>
+                    AI Interview Assistant
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================= RIGHT SECTION ================= -->
+
+    <div class="login-right">
+
+
+        <h2>
+            Login to your account
+        </h2>
+
+
+        <p class="subtitle">
+            Enter your credentials to continue.
+        </p>
+
+
+        <!-- LOGOUT MESSAGE -->
+
+        <div th:if="${param.logout}"
+             class="message">
+
+            You have been logged out successfully. ✓
+
+        </div>
+
+
+        <!-- LOGIN ERROR -->
+
+        <div th:if="${param.error}"
+             class="error">
+
+            Invalid email or password.
+
+        </div>
+
+
+        <!-- LOGIN FORM -->
+
+        <form th:action="@{/login}"
+              method="post">
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="username">
+                    Email Address
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        ✉️
+                    </span>
+
+                    <input
+                            type="email"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required>
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+                    <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button type="submit"
+                    class="login-button">
+
+                Login →
+
+            </button>
+
+
+        </form>
+
+
+        <!-- REGISTER -->
+
+        <div class="register-link">
+
+            Don't have an account?
+
+            <a th:href="@{/register}">
+                Create Account
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

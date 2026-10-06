@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Interview Experience | IESP</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172b4d;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            min-height: 72px;
+
+            background: linear-gradient(
+                    135deg,
+                    #172b4d,
+                    #23448f
+            );
+
+            color: white;
+
+            padding: 12px 45px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            box-shadow:
+                    0 3px 12px rgba(0,0,0,0.15);
+        }
+
+
+        .brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            min-width: 0;
+        }
+
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #1d5d8f;
+
+            border-radius: 10px;
+
+            font-size: 20px;
+        }
+
+
+        .brand h2 {
+            margin: 0;
+
+            font-size: 21px;
+
+            white-space: nowrap;
+        }
+
+
+        .brand p {
+            margin: 2px 0 0;
+
+            font-size: 11px;
+
+            color: #dbe7ff;
+
+            white-space: nowrap;
+        }
+
+
+        .back {
+            color: white;
+
+            text-decoration: none;
+
+            background: rgba(255,255,255,0.12);
+
+            border: 1px solid rgba(255,255,255,0.2);
+
+            padding: 9px 16px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+
+            white-space: nowrap;
+        }
+
+
+        .back:hover {
+            background: white;
+
+            color: #23448f;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ================= MAIN CONTAINER ================= */
+
+        .container {
+            width: 92%;
+
+            max-width: 900px;
+
+            margin: 40px auto;
+        }
+
+
+        /* ================= FORM BOX ================= */
+
+        .form-box {
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            border: 1px solid #e6ebf2;
+
+            box-shadow:
+                    0 7px 25px rgba(23,43,77,0.08);
+        }
+
+
+        /* ================= HEADER ================= */
+
+        .page-header {
+            margin-bottom: 28px;
+
+            padding-bottom: 20px;
+
+            border-bottom: 1px solid #e8edf4;
+        }
+
+
+        .page-header h1 {
+            margin: 0 0 8px;
+
+            color: #172b4d;
+
+            font-size: 28px;
+
+            line-height: 1.3;
+        }
+
+
+        .page-header p {
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #172b4d;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        input,
+        textarea {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #d6dce5;
+
+            border-radius: 8px;
+
+            background: #fbfcfe;
+
+            color: #172b4d;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+
+        input {
+            height: 46px;
+        }
+
+
+        textarea {
+            min-height: 130px;
+
+            resize: vertical;
+
+            line-height: 1.6;
+        }
+
+
+        input:focus,
+        textarea:focus {
+            border-color: #23448f;
+
+            background: white;
+
+            box-shadow:
+                    0 0 0 3px rgba(35,68,143,0.08);
+        }
+
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #94a3b8;
+        }
+
+
+        /* ================= TWO COLUMN ================= */
+
+        .form-row {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 18px;
+        }
+
+
+        /* ================= BUTTON AREA ================= */
+
+        .button-area {
+            margin-top: 28px;
+
+            padding-top: 22px;
+
+            border-top: 1px solid #e8edf4;
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        /* ================= UPDATE BUTTON ================= */
+
+        .update-button {
+            flex: 1;
+
+            min-height: 46px;
+
+            padding: 11px 20px;
+
+            background: linear-gradient(
+                    135deg,
+                    #172b4d,
+                    #23448f
+            );
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .update-button:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                    0 5px 15px rgba(35,68,143,0.20);
+        }
+
+
+        /* ================= CANCEL BUTTON ================= */
+
+        .cancel-button {
+            min-width: 120px;
+
+            min-height: 46px;
+
+            padding: 11px 20px;
+
+            background: #eef2f7;
+
+            color: #172b4d;
+
+            border: 1px solid #d6dce5;
+
+            border-radius: 8px;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            transition: 0.3s;
+        }
+
+
+        .cancel-button:hover {
+            background: #e2e8f0;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ================= TABLET ================= */
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                padding: 12px 25px;
+            }
+
+
+            .container {
+                width: 94%;
+
+                margin: 30px auto;
+            }
+
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                min-height: auto;
+
+                padding: 12px 18px;
+
+                gap: 12px;
+            }
+
+
+            .brand p {
+                display: none;
+            }
+
+
+            .brand h2 {
+                font-size: 19px;
+            }
+
+
+            .back {
+                padding: 8px 11px;
+
+                font-size: 12px;
+            }
+
+
+            .container {
+                width: 94%;
+
+                margin: 25px auto;
+            }
+
+
+            .form-box {
+                padding: 25px 20px;
+
+                border-radius: 12px;
+            }
+
+
+            .page-header {
+                margin-bottom: 23px;
+
+                padding-bottom: 17px;
+            }
+
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+
+            .page-header p {
+                font-size: 13px;
+            }
+
+
+            .form-row {
+                grid-template-columns: 1fr;
+
+                gap: 0;
+            }
+
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+
+            input {
+                height: 44px;
+            }
+
+
+            textarea {
+                min-height: 120px;
+            }
+
+
+            /* MOBILE BUTTONS */
+
+            .button-area {
+                flex-direction: column;
+
+                gap: 9px;
+            }
+
+
+            .update-button,
+            .cancel-button {
+                width: 100%;
+
+                min-height: 44px;
+            }
+
+        }
+
+
+        /* ================= SMALL MOBILE ================= */
+
+        @media (max-width: 450px) {
+
+            .navbar {
+                padding: 10px 14px;
+            }
+
+
+            .brand {
+                gap: 9px;
+            }
+
+
+            .brand-icon {
+                width: 36px;
+
+                height: 36px;
+
+                font-size: 18px;
+
+                border-radius: 8px;
+            }
+
+
+            .brand h2 {
+                font-size: 17px;
+            }
+
+
+            .back {
+                padding: 7px 9px;
+
+                font-size: 11px;
+            }
+
+
+            .container {
+                width: 94%;
+
+                margin: 20px auto;
+            }
+
+
+            .form-box {
+                padding: 20px 15px;
+            }
+
+
+            .page-header h1 {
+                font-size: 22px;
+            }
+
+
+            .page-header p {
+                font-size: 12px;
+            }
+
+
+            label {
+                font-size: 13px;
+            }
+
+
+            input,
+            textarea {
+                font-size: 13px;
+            }
+
+
+            textarea {
+                padding: 12px;
+
+                min-height: 115px;
+            }
+
+
+            .update-button,
+            .cancel-button {
+                font-size: 13px;
+            }
+
+        }
+
+
+        /* ================= VERY SMALL PHONES ================= */
+
+        @media (max-width: 350px) {
+
+            .navbar {
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            .back {
+                width: 100%;
+
+                text-align: center;
+            }
+
+
+            .form-box {
+                padding: 18px 13px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<div class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        <div>
+
+            <h2>IESP</h2>
+
+            <p>
+                Interview & Employment Support Platform
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <a href="/experiences"
+       class="back">
+
+        ← Back to Experiences
+
+    </a>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+    <div class="form-box">
+
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="page-header">
+
+            <h1>
+                ✏️ Edit Interview Experience
+            </h1>
+
+            <p>
+                Update your interview experience details and keep your experience helpful for other students and job seekers.
+            </p>
+
+        </div>
+
+
+        <!-- ================= FORM ================= -->
+
+        <form th:action="@{/experiences/update/{id}(id=${experience.id})}"
+              th:object="${experience}"
+              method="post">
+
+
+            <!-- COMPANY + ROLE -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        Company Name
+                    </label>
+
+                    <input type="text"
+                           th:field="*{company}"
+                           placeholder="e.g. TCS"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Job Role
+                    </label>
+
+                    <input type="text"
+                           th:field="*{role}"
+                           placeholder="e.g. Java Developer"
+                           required>
+
+                </div>
+
+            </div>
+
+
+            <!-- TECHNOLOGY -->
+
+            <div class="form-group">
+
+                <label>
+                    Technology / Skills
+                </label>
+
+                <input type="text"
+                       th:field="*{technology}"
+                       placeholder="e.g. Java, Spring Boot, SQL"
+                       required>
+
+            </div>
+
+
+            <!-- QUESTIONS -->
+
+            <div class="form-group">
+
+                <label>
+                    Interview Questions
+                </label>
+
+                <textarea th:field="*{questions}"
+                          placeholder="Write the questions asked during the interview..."
+                          required></textarea>
+
+            </div>
+
+
+            <!-- EXPERIENCE -->
+
+            <div class="form-group">
+
+                <label>
+                    Your Interview Experience
+                </label>
+
+                <textarea th:field="*{experience}"
+                          placeholder="Describe your interview experience, preparation, interview rounds, etc."
+                          required></textarea>
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div class="form-group">
+
+                <label>
+                    Result
+                </label>
+
+                <input type="text"
+                       th:field="*{result}"
+                       placeholder="e.g. Selected / Not Selected / Waiting"
+                       required>
+
+            </div>
+
+
+            <!-- ================= BUTTONS ================= -->
+
+            <div class="button-area">
+
+                <button type="submit"
+                        class="update-button">
+
+                    ✓ Update Experience
+
+                </button>
+
+
+                <a href="/experiences"
+                   class="cancel-button">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

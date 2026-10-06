@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | IESP</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            font-family:
+                    "Segoe UI",
+                    Arial,
+                    sans-serif;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #f4f7fb,
+                            #eef3fa
+                    );
+
+            color: #172b4d;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+
+            height: 72px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #172b4d,
+                            #23448f
+                    );
+
+            color: white;
+
+            padding: 0 50px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            box-shadow:
+                    0 4px 18px
+                    rgba(23,43,77,0.18);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .brand-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                    rgba(255,255,255,0.15);
+
+            border-radius: 12px;
+
+            font-size: 21px;
+        }
+
+
+        .brand h2 {
+
+            margin: 0;
+
+            font-size: 22px;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .brand span {
+
+            display: block;
+
+            font-size: 11px;
+
+            color: #cbd5e1;
+
+            margin-top: 2px;
+        }
+
+
+        .navbar-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .user-name {
+
+            color: white;
+
+            text-decoration: none;
+
+            background:
+                    rgba(255,255,255,0.12);
+
+            padding: 10px 16px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+
+        .user-name:hover {
+
+            background:
+                    rgba(255,255,255,0.22);
+
+            transform:
+                    translateY(-1px);
+        }
+
+
+        .logout {
+
+            background: #dc3545;
+
+            color: white;
+
+            border: none;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .logout:hover {
+
+            background: #b02a37;
+
+            transform:
+                    translateY(-1px);
+        }
+
+
+        /* ================= MAIN CONTAINER ================= */
+
+        .container {
+
+            width: 90%;
+
+            max-width: 1150px;
+
+            margin: 40px auto 60px;
+        }
+
+
+        /* ================= WELCOME ================= */
+
+        .welcome {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #172b4d,
+                            #23448f,
+                            #1d5d8f
+                    );
+
+            color: white;
+
+            padding: 40px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                    0 12px 35px
+                    rgba(23,43,77,0.20);
+
+            margin-bottom: 30px;
+        }
+
+
+        .welcome::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+
+            height: 220px;
+
+            border-radius: 50%;
+
+            background:
+                    rgba(255,255,255,0.06);
+
+            right: -60px;
+
+            top: -70px;
+        }
+
+
+        .welcome-content {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .welcome h1 {
+
+            margin: 0 0 10px;
+
+            font-size: 32px;
+
+            font-weight: 700;
+        }
+
+
+        .welcome h1 span {
+
+            color: #ffffff;
+        }
+
+
+        .welcome-subtitle {
+
+            margin: 0 0 25px;
+
+            color: #dbeafe;
+
+            font-size: 15px;
+        }
+
+
+        /* ================= PROFILE INFO ================= */
+
+        .profile-info {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 10px;
+        }
+
+
+        .profile-item {
+
+            background:
+                    rgba(255,255,255,0.12);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,0.12);
+
+            padding: 11px 15px;
+
+            border-radius: 9px;
+
+            min-width: 150px;
+
+            backdrop-filter: blur(5px);
+        }
+
+
+        .profile-item small {
+
+            display: block;
+
+            color: #cbd5e1;
+
+            font-size: 11px;
+
+            margin-bottom: 3px;
+        }
+
+
+        .profile-item strong {
+
+            color: white;
+
+            font-size: 14px;
+        }
+
+
+        /* ================= EDIT PROFILE ================= */
+
+        .edit-profile-button {
+
+            display: inline-block;
+
+            margin-top: 25px;
+
+            background: white;
+
+            color: #23448f;
+
+            text-decoration: none;
+
+            padding: 11px 19px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            transition: 0.3s;
+        }
+
+
+        .edit-profile-button:hover {
+
+            background: #eef4ff;
+
+            transform:
+                    translateY(-2px);
+
+            box-shadow:
+                    0 5px 15px
+                    rgba(0,0,0,0.15);
+        }
+
+
+        /* ================= SECTION TITLE ================= */
+
+        .section-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin: 35px 0 18px;
+        }
+
+
+        .section-header h2 {
+
+            margin: 0;
+
+            font-size: 21px;
+
+            color: #172b4d;
+        }
+
+
+        .section-header p {
+
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= FEATURE CARDS ================= */
+
+        .cards {
+
+            display: grid;
+
+            grid-template-columns:
+                    repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+
+        .card {
+
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 16px;
+
+            border:
+                    1px solid
+                    #e5eaf0;
+
+            box-shadow:
+                    0 5px 18px
+                    rgba(0,0,0,0.06);
+
+            display: flex;
+
+            flex-direction: column;
+
+            min-height: 300px;
+
+            transition: 0.3s;
+        }
+
+
+        .card:hover {
+
+            transform:
+                    translateY(-7px);
+
+            box-shadow:
+                    0 14px 30px
+                    rgba(23,43,77,0.12);
+        }
+
+
+        .card-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #eef4fa;
+
+            border-radius: 13px;
+
+            font-size: 25px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .card h3 {
+
+            margin: 0 0 11px;
+
+            color: #172b4d;
+
+            font-size: 19px;
+        }
+
+
+        .card p {
+
+            margin: 0;
+
+            color: #64748b;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+
+            flex-grow: 1;
+        }
+
+
+        /* ================= CARD BUTTON ================= */
+
+        .card-button {
+
+            display: inline-block;
+
+            width: 175px;
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            padding: 11px 15px;
+
+            background: #23448f;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+
+        .card-button:hover {
+
+            background: #1b3675;
+
+            transform:
+                    translateY(-2px);
+
+            box-shadow:
+                    0 5px 12px
+                    rgba(35,68,143,0.25);
+        }
+
+
+        /* ================= SHARE SECTION ================= */
+
+        .share-section {
+
+            margin-top: 30px;
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 28px;
+
+            text-align: center;
+
+            border:
+                    1px solid
+                    #e5eaf0;
+
+            box-shadow:
+                    0 5px 18px
+                    rgba(0,0,0,0.05);
+        }
+
+
+        .share-section h3 {
+
+            margin: 0 0 7px;
+
+            color: #172b4d;
+
+            font-size: 19px;
+        }
+
+
+        .share-section p {
+
+            margin: 0 0 18px;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        .share-button {
+
+            display: inline-block;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #28a745,
+                            #218838
+                    );
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 12px 25px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            transition: 0.3s;
+        }
+
+
+        .share-button:hover {
+
+            transform:
+                    translateY(-2px);
+
+            box-shadow:
+                    0 6px 15px
+                    rgba(40,167,69,0.25);
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+
+            margin-top: 35px;
+
+            line-height: 1.7;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .cards {
+
+                grid-template-columns:
+                        1fr;
+            }
+
+            .card {
+
+                min-height: auto;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 0 18px;
+            }
+
+            .brand span {
+
+                display: none;
+            }
+
+            .brand h2 {
+
+                font-size: 18px;
+            }
+
+            .user-name {
+
+                padding: 9px 11px;
+
+                font-size: 13px;
+            }
+
+            .logout {
+
+                padding: 9px 12px;
+
+                font-size: 13px;
+            }
+
+            .navbar-right {
+
+                gap: 6px;
+            }
+
+            .container {
+
+                width: 92%;
+
+                margin-top: 25px;
+            }
+
+            .welcome {
+
+                padding: 28px 24px;
+
+                border-radius: 16px;
+            }
+
+            .welcome h1 {
+
+                font-size: 25px;
+            }
+
+            .profile-info {
+
+                flex-direction: column;
+            }
+
+            .profile-item {
+
+                width: 100%;
+            }
+
+            .section-header {
+
+                display: block;
+            }
+
+            .section-header p {
+
+                margin-top: 5px;
+            }
+
+            .card-button {
+
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<div class="navbar">
+
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        <div>
+
+            <h2>
+                IESP
+            </h2>
+
+            <span>
+                Interview & Employment Support Platform
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="navbar-right">
+
+
+        <!-- USER NAME -->
+
+        <a href="/profile/edit"
+           class="user-name"
+           th:text="${user.name}">
+
+            User
+
+        </a>
+
+
+        <!-- LOGOUT -->
+
+        <form th:action="@{/logout}"
+              method="post">
+
+            <button type="submit"
+                    class="logout">
+
+                Logout
+
+            </button>
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+    <!-- ================= WELCOME ================= -->
+
+    <div class="welcome">
+
+        <div class="welcome-content">
+
+            <h1>
+
+                Welcome,
+                <span th:text="${user.name}">
+                    User
+                </span>
+                ! 🎓
+
+            </h1>
+
+
+            <p class="welcome-subtitle">
+
+                Your personal interview preparation
+                and career support dashboard.
+
+            </p>
+
+
+            <!-- PROFILE INFORMATION -->
+
+            <div class="profile-info">
+
+
+                <div class="profile-item">
+
+                    <small>
+                        COLLEGE
+                    </small>
+
+                    <strong th:text="${user.college}">
+                        College
+                    </strong>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <small>
+                        GRADUATION YEAR
+                    </small>
+
+                    <strong th:text="${user.graduationYear}">
+                        2024
+                    </strong>
+
+                </div>
+
+
+                <div class="profile-item">
+
+                    <small>
+                        ACCOUNT TYPE
+                    </small>
+
+                    <strong th:text="${user.role}">
+                        USER
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- EDIT PROFILE -->
+
+            <a href="/profile/edit"
+               class="edit-profile-button">
+
+                ✏️ Edit Profile
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= SECTION HEADER ================= -->
+
+    <div class="section-header">
+
+        <h2>
+            Your Preparation Tools
+        </h2>
+
+        <p>
+            Prepare smarter. Interview better.
+        </p>
+
+    </div>
+
+
+
+    <!-- ================= FEATURE CARDS ================= -->
+
+    <div class="cards">
+
+
+        <!-- INTERVIEW EXPERIENCES -->
+
+        <div class="card">
+
+            <div class="card-icon">
+                🎤
+            </div>
+
+            <h3>
+                Interview Experiences
+            </h3>
+
+            <p>
+
+                Read real interview experiences
+                shared by other candidates and
+                learn from their interview journeys.
+
+            </p>
+
+
+            <a href="/experiences"
+               class="card-button">
+
+                View Experiences →
+
+            </a>
+
+        </div>
+
+
+
+        <!-- QUESTION BANK -->
+
+        <div class="card">
+
+            <div class="card-icon">
+                📚
+            </div>
+
+            <h3>
+                Question Bank
+            </h3>
+
+            <p>
+
+                Practice commonly asked technical
+                and HR interview questions and
+                improve your interview preparation.
+            </p>
+
+
+            <a href="/questions"
+               class="card-button">
+                Question Bank →
+            </a>
+
+        </div>
+
+
+
+        <!-- AI ASSISTANT -->
+
+        <div class="card">
+
+            <div class="card-icon">
+                🤖
+            </div>
+
+            <h3>
+                AI Interview Assistant
+            </h3>
+
+            <p>
+
+                Practice interviews, learn concepts,
+                ask technical questions and get
+                instant AI-powered guidance.
+
+            </p>
+
+
+            <a href="/chat"
+               class="card-button">
+
+                Start AI Assistant →
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================= SHARE EXPERIENCE ================= -->
+
+    <div class="share-section">
+
+        <h3>
+            Share Your Interview Experience
+        </h3>
+
+        <p>
+            Help other candidates by sharing what
+            you learned from your interview.
+        </p>
+
+
+        <a href="/experiences/add"
+           class="share-button">
+
+            + Share Your Experience
+
+        </a>
+
+    </div>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <div class="footer">
+
+        IESP • Interview & Employment Support Platform
+
+        <br>
+
+        Learn • Prepare • Succeed
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

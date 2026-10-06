@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Interview Experiences | IESP</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            margin: 0;
+            width: 100%;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172b4d;
+            overflow-x: hidden;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            min-height: 72px;
+            width: 100%;
+
+            background: linear-gradient(
+                    135deg,
+                    #172b4d,
+                    #23448f
+            );
+
+            color: white;
+
+            padding: 12px 45px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+
+            box-shadow:
+                    0 3px 12px rgba(0,0,0,0.15);
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            min-width: 0;
+        }
+
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #1d5d8f;
+
+            border-radius: 10px;
+
+            font-size: 20px;
+        }
+
+
+        .brand h2 {
+            margin: 0;
+            font-size: 21px;
+            white-space: nowrap;
+        }
+
+
+        .brand p {
+            margin: 2px 0 0;
+
+            font-size: 11px;
+
+            color: #dbe7ff;
+
+            white-space: nowrap;
+        }
+
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            flex-shrink: 0;
+        }
+
+
+        .nav-button {
+            text-decoration: none;
+
+            color: white;
+
+            padding: 9px 16px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+
+            white-space: nowrap;
+        }
+
+
+        .dashboard {
+            background: rgba(255,255,255,0.12);
+
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+
+        .dashboard:hover {
+            background: white;
+
+            color: #23448f;
+
+            transform: translateY(-1px);
+        }
+
+
+        .add {
+            background: #1d8f5a;
+
+            border: 1px solid #1d8f5a;
+        }
+
+
+        .add:hover {
+            background: #167447;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+
+            margin: 40px auto;
+        }
+
+
+        /* ================= PAGE HEADER ================= */
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+
+        .page-header h1 {
+            margin: 0 0 8px;
+
+            color: #172b4d;
+
+            font-size: 30px;
+
+            line-height: 1.2;
+        }
+
+
+        .page-header p {
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ================= SEARCH ================= */
+
+        .search-section {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 14px;
+
+            margin-bottom: 28px;
+
+            border: 1px solid #e6ebf2;
+
+            box-shadow:
+                    0 6px 20px rgba(23,43,77,0.08);
+        }
+
+
+        .search-title {
+            margin: 0 0 12px;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            color: #172b4d;
+        }
+
+
+        .search-form {
+            display: flex;
+
+            gap: 10px;
+
+            width: 100%;
+        }
+
+
+        .search-input {
+            flex: 1;
+
+            min-width: 0;
+
+            height: 46px;
+
+            padding: 12px 14px;
+
+            border: 1px solid #d6dce5;
+
+            border-radius: 8px;
+
+            background: #fbfcfe;
+
+            color: #172b4d;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+
+        .search-input:focus {
+            border-color: #23448f;
+
+            background: white;
+
+            box-shadow:
+                    0 0 0 3px rgba(35,68,143,0.08);
+        }
+
+
+        .search-input::placeholder {
+            color: #94a3b8;
+        }
+
+
+        .search-button {
+            height: 46px;
+
+            padding: 0 22px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: linear-gradient(
+                    135deg,
+                    #172b4d,
+                    #23448f
+            );
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            white-space: nowrap;
+        }
+
+
+        .search-button:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                    0 5px 15px rgba(35,68,143,0.20);
+        }
+
+
+        .clear-button {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            height: 46px;
+
+            padding: 0 20px;
+
+            background: #eef2f7;
+
+            border: 1px solid #d6dce5;
+
+            color: #172b4d;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+
+            white-space: nowrap;
+        }
+
+
+        .clear-button:hover {
+            background: #e2e8f0;
+        }
+
+
+        /* ================= EXPERIENCE CARD ================= */
+
+        .experience-card {
+            background: white;
+
+            padding: 30px;
+
+            margin-bottom: 22px;
+
+            border-radius: 15px;
+
+            border: 1px solid #e6ebf2;
+
+            box-shadow:
+                    0 7px 25px rgba(23,43,77,0.08);
+
+            transition: 0.3s;
+
+            width: 100%;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        .experience-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                    0 10px 30px rgba(23,43,77,0.11);
+        }
+
+
+        .experience-card h2 {
+            margin: 0 0 8px;
+
+            color: #172b4d;
+
+            font-size: 23px;
+
+            line-height: 1.3;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        .shared-by {
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin-bottom: 22px;
+
+            padding-bottom: 15px;
+
+            border-bottom: 1px solid #e8edf4;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        .shared-by strong {
+            color: #23448f;
+        }
+
+
+        /* ================= INFO ================= */
+
+        .info {
+            margin: 16px 0;
+        }
+
+
+        .label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #172b4d;
+        }
+
+
+        .info > span:not(.label) {
+            color: #475569;
+
+            font-size: 14px;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        .content {
+            background: #f8fafc;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            border: 1px solid #e8edf4;
+
+            margin-top: 8px;
+
+            color: #475569;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+            white-space: pre-wrap;
+
+            overflow-wrap: anywhere;
+
+            word-break: break-word;
+        }
+
+
+        /* ================= RESULT ================= */
+
+        .result {
+            display: inline-block;
+
+            max-width: 100%;
+
+            margin-top: 12px;
+
+            padding: 7px 15px;
+
+            background: #e8f5e9;
+
+            color: #198754;
+
+            border: 1px solid #ccebd2;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        /* ================= ACTIONS ================= */
+
+        .actions {
+            margin-top: 22px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid #e8edf4;
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .edit,
+        .delete {
+            text-decoration: none;
+
+            color: white;
+
+            padding: 9px 18px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+
+            text-align: center;
+        }
+
+
+        .edit {
+            background: #23448f;
+        }
+
+
+        .edit:hover {
+            background: #172b4d;
+
+            transform: translateY(-1px);
+        }
+
+
+        .delete {
+            background: #dc3545;
+        }
+
+
+        .delete:hover {
+            background: #bb2d3b;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            background: white;
+
+            padding: 55px 30px;
+
+            text-align: center;
+
+            border-radius: 15px;
+
+            border: 1px solid #e6ebf2;
+
+            box-shadow:
+                    0 7px 25px rgba(23,43,77,0.08);
+        }
+
+
+        .empty-icon {
+            font-size: 45px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .empty h2 {
+            margin: 0 0 8px;
+
+            color: #172b4d;
+
+            font-size: 23px;
+        }
+
+
+        .empty p {
+            margin: 0 0 25px;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        .empty .share-button {
+            display: inline-block;
+
+            background: linear-gradient(
+                    135deg,
+                    #172b4d,
+                    #23448f
+            );
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 11px 20px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+
+        .empty .share-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                    0 6px 15px rgba(35,68,143,0.20);
+        }
+
+
+        /* ================= TABLET ================= */
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                padding: 12px 25px;
+            }
+
+
+            .container {
+                width: 94%;
+
+                margin: 30px auto;
+            }
+
+
+            .experience-card {
+                padding: 25px;
+            }
+
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                min-height: auto;
+
+                padding: 12px 18px;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 12px;
+            }
+
+
+            .brand {
+                width: 100%;
+            }
+
+
+            .brand p {
+                display: none;
+            }
+
+
+            .brand h2 {
+                font-size: 19px;
+            }
+
+
+            .nav-buttons {
+                width: 100%;
+
+                display: flex;
+
+                gap: 8px;
+            }
+
+
+            .nav-button {
+                flex: 1;
+
+                text-align: center;
+
+                padding: 9px 8px;
+
+                font-size: 12px;
+            }
+
+
+            .container {
+                width: 94%;
+
+                margin: 25px auto;
+            }
+
+
+            .page-header {
+                margin-bottom: 20px;
+            }
+
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+
+            .page-header p {
+                font-size: 13px;
+            }
+
+
+            .search-section {
+                padding: 16px;
+
+                margin-bottom: 22px;
+            }
+
+
+            .search-form {
+                flex-direction: column;
+
+                gap: 9px;
+            }
+
+
+            .search-input,
+            .search-button,
+            .clear-button {
+                width: 100%;
+
+                height: 44px;
+            }
+
+
+            .search-button,
+            .clear-button {
+                flex-shrink: 0;
+            }
+
+
+            .experience-card {
+                padding: 22px 18px;
+
+                border-radius: 12px;
+
+                margin-bottom: 18px;
+            }
+
+
+            .experience-card h2 {
+                font-size: 20px;
+            }
+
+
+            .shared-by {
+                margin-bottom: 18px;
+            }
+
+
+            .info {
+                margin: 15px 0;
+            }
+
+
+            .content {
+                padding: 13px;
+
+                font-size: 13px;
+
+                line-height: 1.65;
+            }
+
+
+            .actions {
+                flex-direction: column;
+
+                gap: 8px;
+            }
+
+
+            .edit,
+            .delete {
+                width: 100%;
+
+                padding: 10px;
+            }
+
+
+            .empty {
+                padding: 45px 20px;
+            }
+
+
+            .empty h2 {
+                font-size: 20px;
+            }
+
+        }
+
+
+        /* ================= SMALL MOBILE ================= */
+
+        @media (max-width: 450px) {
+
+            .navbar {
+                padding: 10px 14px;
+            }
+
+
+            .brand {
+                gap: 9px;
+            }
+
+
+            .brand-icon {
+                width: 36px;
+
+                height: 36px;
+
+                font-size: 18px;
+
+                border-radius: 8px;
+            }
+
+
+            .brand h2 {
+                font-size: 17px;
+            }
+
+
+            .nav-button {
+                padding: 8px 5px;
+
+                font-size: 11px;
+
+                border-radius: 6px;
+            }
+
+
+            .container {
+                width: 94%;
+
+                margin: 20px auto;
+            }
+
+
+            .page-header h1 {
+                font-size: 22px;
+            }
+
+
+            .page-header p {
+                font-size: 12px;
+            }
+
+
+            .search-title {
+                font-size: 14px;
+            }
+
+
+            .experience-card {
+                padding: 18px 15px;
+
+                border-radius: 11px;
+            }
+
+
+            .experience-card h2 {
+                font-size: 19px;
+            }
+
+
+            .label {
+                font-size: 13px;
+            }
+
+
+            .info > span:not(.label),
+            .content {
+                font-size: 13px;
+            }
+
+
+            .result {
+                font-size: 12px;
+
+                padding: 6px 12px;
+            }
+
+
+            .empty {
+                padding: 40px 16px;
+            }
+
+
+            .empty-icon {
+                font-size: 38px;
+            }
+
+
+            .empty h2 {
+                font-size: 19px;
+            }
+
+
+            .empty p {
+                font-size: 13px;
+            }
+
+        }
+
+
+        /* ================= VERY SMALL PHONES ================= */
+
+        @media (max-width: 350px) {
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+
+            .nav-button {
+                width: 100%;
+            }
+
+
+            .experience-card {
+                padding: 16px 13px;
+            }
+
+
+            .search-section {
+                padding: 13px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<div class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        <div>
+
+            <h2>IESP</h2>
+
+            <p>
+                Interview & Employment Support Platform
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-buttons">
+
+        <a href="/dashboard"
+           class="nav-button dashboard">
+
+            Dashboard
+
+        </a>
+
+
+        <a href="/experiences/add"
+           class="nav-button add">
+
+            + Share Experience
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <h1>
+            Interview Experiences
+        </h1>
+
+        <p>
+            Explore real interview experiences shared by students and job seekers.
+        </p>
+
+    </div>
+
+
+    <!-- ================= SEARCH ================= -->
+
+    <div class="search-section">
+
+        <div class="search-title">
+            🔍 Search Interview Experiences
+        </div>
+
+
+        <form action="/experiences"
+              method="get"
+              class="search-form">
+
+
+            <input type="text"
+                   name="search"
+                   class="search-input"
+                   placeholder="Search by company, role or technology..."
+                   th:value="${search}">
+
+
+            <button type="submit"
+                    class="search-button">
+
+                Search
+
+            </button>
+
+
+            <a href="/experiences"
+               class="clear-button">
+
+                Clear
+
+            </a>
+
+
+        </form>
+
+    </div>
+
+
+    <!-- ================= EXPERIENCES ================= -->
+
+    <div th:if="${not #lists.isEmpty(experiences)}">
+
+
+        <div class="experience-card"
+             th:each="experience : ${experiences}">
+
+
+            <!-- COMPANY -->
+
+            <h2 th:text="${experience.company}">
+
+                Company
+
+            </h2>
+
+
+            <!-- SHARED BY -->
+
+            <div class="shared-by">
+
+                Shared by:
+
+                <strong th:text="${experience.user.name}">
+
+                    User Name
+
+                </strong>
+
+            </div>
+
+
+            <!-- ROLE -->
+
+            <div class="info">
+
+                <span class="label">
+                    Job Role
+                </span>
+
+                <span th:text="${experience.role}">
+                    Role
+                </span>
+
+            </div>
+
+
+            <!-- TECHNOLOGY -->
+
+            <div class="info">
+
+                <span class="label">
+                    Technology / Skills
+                </span>
+
+                <span th:text="${experience.technology}">
+                    Technology
+                </span>
+
+            </div>
+
+
+            <!-- QUESTIONS -->
+
+            <div class="info">
+
+                <span class="label">
+                    Interview Questions
+                </span>
+
+                <div class="content"
+                     th:text="${experience.questions}">
+                </div>
+
+            </div>
+
+
+            <!-- EXPERIENCE -->
+
+            <div class="info">
+
+                <span class="label">
+                    Interview Experience
+                </span>
+
+                <div class="content"
+                     th:text="${experience.experience}">
+                </div>
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <span class="result"
+                  th:text="${experience.result}">
+
+                Result
+
+            </span>
+
+
+            <!-- OWNER ACTIONS -->
+
+            <div class="actions"
+                 th:if="${experience.user.email == #authentication.name}">
+
+
+                <a th:href="@{/experiences/edit/{id}(id=${experience.id})}"
+                   class="edit">
+
+                    ✏ Edit
+
+                </a>
+
+
+                <a th:href="@{/experiences/delete/{id}(id=${experience.id})}"
+                   class="delete"
+                   onclick="return confirm('Are you sure you want to delete this experience?');">
+
+                    🗑 Delete
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= EMPTY ================= -->
+
+    <div th:if="${#lists.isEmpty(experiences)}"
+         class="empty">
+
+
+        <div class="empty-icon">
+            🎤
+        </div>
+
+
+        <h2>
+            No Interview Experiences Yet
+        </h2>
+
+
+        <p>
+            Be the first person to share an interview experience!
+        </p>
+
+
+        <a href="/experiences/add"
+           class="share-button">
+
+            + Share Experience
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

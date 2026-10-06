@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Share Interview Experience | IESP</title>
+
+  <style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f4f7fb;
+        color: #172b4d;
+    }
+
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+
+        height: 72px;
+
+        background: linear-gradient(
+                135deg,
+                #172b4d,
+                #23448f
+        );
+
+        color: white;
+
+        padding: 0 45px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        box-shadow:
+                0 3px 12px rgba(0,0,0,0.15);
+    }
+
+
+    .brand {
+
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+    }
+
+
+    .brand-icon {
+
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #1d5d8f;
+
+        border-radius: 10px;
+
+        font-size: 20px;
+    }
+
+
+    .brand h2 {
+
+        margin: 0;
+
+        font-size: 21px;
+    }
+
+
+    .brand p {
+
+        margin: 2px 0 0;
+
+        font-size: 11px;
+
+        color: #dbe7ff;
+    }
+
+
+    .back {
+
+        color: white;
+
+        text-decoration: none;
+
+        background: rgba(255,255,255,0.12);
+
+        border: 1px solid rgba(255,255,255,0.2);
+
+        padding: 9px 17px;
+
+        border-radius: 7px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+    }
+
+
+    .back:hover {
+
+        background: white;
+
+        color: #23448f;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* ================= MAIN ================= */
+
+    .container {
+
+        width: 92%;
+
+        max-width: 850px;
+
+        margin: 40px auto;
+    }
+
+
+    /* ================= FORM BOX ================= */
+
+    .form-box {
+
+        background: white;
+
+        padding: 40px;
+
+        border-radius: 16px;
+
+        box-shadow:
+                0 7px 25px rgba(23,43,77,0.10);
+
+        border: 1px solid #e6ebf2;
+    }
+
+
+    /* ================= HEADER ================= */
+
+    .form-header {
+
+        margin-bottom: 30px;
+
+        padding-bottom: 22px;
+
+        border-bottom: 1px solid #e8edf4;
+    }
+
+
+    .form-icon {
+
+        width: 50px;
+        height: 50px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #eef4fa;
+
+        border-radius: 12px;
+
+        font-size: 24px;
+
+        margin-bottom: 15px;
+    }
+
+
+    h1 {
+
+        margin: 0 0 8px;
+
+        color: #172b4d;
+
+        font-size: 28px;
+    }
+
+
+    .subtitle {
+
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+    }
+
+
+    /* ================= FORM ================= */
+
+    .form-group {
+
+        margin-bottom: 20px;
+    }
+
+
+    label {
+
+        display: block;
+
+        margin-bottom: 8px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        color: #172b4d;
+    }
+
+
+    .required {
+
+        color: #dc3545;
+    }
+
+
+    input,
+    textarea {
+
+        width: 100%;
+
+        padding: 12px 13px;
+
+        border: 1px solid #d6dce5;
+
+        border-radius: 8px;
+
+        background: #fbfcfe;
+
+        color: #172b4d;
+
+        font-family: inherit;
+
+        font-size: 14px;
+
+        outline: none;
+
+        transition: 0.25s;
+    }
+
+
+    input {
+
+        height: 46px;
+    }
+
+
+    textarea {
+
+        min-height: 130px;
+
+        resize: vertical;
+
+        line-height: 1.6;
+    }
+
+
+    input:focus,
+    textarea:focus {
+
+        border-color: #23448f;
+
+        background: white;
+
+        box-shadow:
+                0 0 0 3px rgba(35,68,143,0.08);
+    }
+
+
+    input::placeholder,
+    textarea::placeholder {
+
+        color: #94a3b8;
+    }
+
+
+    /* ================= TWO COLUMN ================= */
+
+    .form-row {
+
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 20px;
+    }
+
+
+    /* ================= SUBMIT ================= */
+
+    .submit-button {
+
+        width: 100%;
+
+        margin-top: 5px;
+
+        padding: 13px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        background: linear-gradient(
+                135deg,
+                #172b4d,
+                #23448f
+        );
+
+        color: white;
+
+        font-size: 15px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+
+        box-shadow:
+                0 5px 15px rgba(35,68,143,0.18);
+    }
+
+
+    .submit-button:hover {
+
+        transform: translateY(-2px);
+
+        box-shadow:
+                0 8px 20px rgba(35,68,143,0.25);
+    }
+
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 700px) {
+
+        .navbar {
+
+            padding: 0 20px;
+        }
+
+
+        .brand p {
+
+            display: none;
+        }
+
+
+        .brand h2 {
+
+            font-size: 18px;
+        }
+
+
+        .container {
+
+            width: 94%;
+
+            margin: 25px auto;
+        }
+
+
+        .form-box {
+
+            padding: 28px 22px;
+
+            border-radius: 13px;
+        }
+
+
+        h1 {
+
+            font-size: 24px;
+        }
+
+
+        .form-row {
+
+            grid-template-columns: 1fr;
+
+            gap: 0;
+        }
+
+
+        .back {
+
+            padding: 8px 12px;
+
+            font-size: 13px;
+        }
+    }
+
+
+    @media (max-width: 450px) {
+
+        .navbar {
+
+            height: 65px;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+            height: 36px;
+
+            font-size: 18px;
+        }
+
+
+        .brand h2 {
+
+            font-size: 17px;
+        }
+
+
+        .back {
+
+            padding: 7px 10px;
+
+            font-size: 12px;
+        }
+
+
+        .form-box {
+
+            padding: 25px 18px;
+        }
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<div class="navbar">
+
+
+  <div class="brand">
+
+    <div class="brand-icon">
+      🎓
+    </div>
+
+    <div>
+
+      <h2>IESP</h2>
+
+      <p>
+        Interview & Employment Support Platform
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <a href="/experiences"
+     class="back">
+
+    ← Back to Experiences
+
+  </a>
+
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+  <div class="form-box">
+
+
+    <!-- HEADER -->
+
+    <div class="form-header">
+
+      <div class="form-icon">
+        🎤
+      </div>
+
+      <h1>
+        Share Your Interview Experience
+      </h1>
+
+      <p class="subtitle">
+
+        Help other students and job seekers by
+        sharing your interview journey, questions
+        and valuable experience.
+
+      </p>
+
+    </div>
+
+
+    <!-- FORM -->
+
+    <form th:action="@{/experiences/save}"
+          th:object="${experience}"
+          method="post">
+
+
+      <!-- COMPANY + ROLE -->
+
+      <div class="form-row">
+
+
+        <div class="form-group">
+
+          <label>
+            Company Name
+            <span class="required">*</span>
+          </label>
+
+          <input
+                  type="text"
+                  th:field="*{company}"
+                  placeholder="e.g. TCS"
+                  required>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Job Role
+            <span class="required">*</span>
+          </label>
+
+          <input
+                  type="text"
+                  th:field="*{role}"
+                  placeholder="e.g. Java Developer"
+                  required>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- TECHNOLOGY -->
+
+      <div class="form-group">
+
+        <label>
+          Technology / Skills
+          <span class="required">*</span>
+        </label>
+
+        <input
+                type="text"
+                th:field="*{technology}"
+                placeholder="e.g. Java, Spring Boot, SQL"
+                required>
+
+      </div>
+
+
+      <!-- QUESTIONS -->
+
+      <div class="form-group">
+
+        <label>
+          Interview Questions
+          <span class="required">*</span>
+        </label>
+
+        <textarea
+                th:field="*{questions}"
+                placeholder="Write the questions asked during the interview..."
+                required></textarea>
+
+      </div>
+
+
+      <!-- EXPERIENCE -->
+
+      <div class="form-group">
+
+        <label>
+          Your Experience
+          <span class="required">*</span>
+        </label>
+
+        <textarea
+                th:field="*{experience}"
+                placeholder="Describe your interview experience, preparation, interview rounds, etc..."
+                required></textarea>
+
+      </div>
+
+
+      <!-- RESULT -->
+
+      <div class="form-group">
+
+        <label>
+          Interview Result
+          <span class="required">*</span>
+        </label>
+
+        <input
+                type="text"
+                th:field="*{result}"
+                placeholder="e.g. Selected / Not Selected / Waiting"
+                required>
+
+      </div>
+
+
+      <!-- SUBMIT -->
+
+      <button type="submit"
+              class="submit-button">
+
+        Submit Interview Experience →
+
+      </button>
+
+
+    </form>
+
+
+  </div>
+
+</div>
+
+
+</body>
+
+</html>

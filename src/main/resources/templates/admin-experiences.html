@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Interview Experiences - IESP Admin</title>
+
+  <style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f4f7fb;
+        color: #172b4d;
+    }
+
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+
+        min-height: 72px;
+
+        background: linear-gradient(
+                135deg,
+                #172b4d,
+                #23448f
+        );
+
+        color: white;
+
+        padding: 12px 45px;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        gap: 20px;
+
+        box-shadow:
+                0 3px 12px rgba(0,0,0,0.15);
+    }
+
+
+    .brand {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+
+        min-width: 0;
+    }
+
+
+    .brand-icon {
+
+        width: 40px;
+
+        height: 40px;
+
+        flex-shrink: 0;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: #1d5d8f;
+
+        border-radius: 10px;
+
+        font-size: 20px;
+    }
+
+
+    .brand-text {
+
+        min-width: 0;
+    }
+
+
+    .brand-text h2 {
+
+        margin: 0;
+
+        font-size: 21px;
+
+        white-space: nowrap;
+    }
+
+
+    .brand-text p {
+
+        margin: 2px 0 0;
+
+        font-size: 11px;
+
+        color: #dbe7ff;
+
+        white-space: nowrap;
+    }
+
+
+    .back-button {
+
+        color: white;
+
+        text-decoration: none;
+
+        background: rgba(255,255,255,0.12);
+
+        border: 1px solid rgba(255,255,255,0.2);
+
+        padding: 9px 16px;
+
+        border-radius: 7px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+
+        white-space: nowrap;
+
+        flex-shrink: 0;
+    }
+
+
+    .back-button:hover {
+
+        background: white;
+
+        color: #23448f;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* ================= CONTAINER ================= */
+
+    .container {
+
+        width: 90%;
+
+        max-width: 1200px;
+
+        margin: 40px auto;
+    }
+
+
+    .container h1 {
+
+        color: #172b4d;
+
+        font-size: 28px;
+
+        margin: 0 0 25px;
+    }
+
+
+    /* ================= EXPERIENCE CARD ================= */
+
+    .experience-card {
+
+        background: white;
+
+        margin-bottom: 20px;
+
+        padding: 25px;
+
+        border-radius: 10px;
+
+        border: 1px solid #e6ebf2;
+
+        box-shadow:
+                0 3px 12px rgba(23,43,77,0.08);
+
+        overflow-wrap: break-word;
+    }
+
+
+    .experience-card h2 {
+
+        color: #172b4d;
+
+        margin-top: 0;
+
+        margin-bottom: 18px;
+
+        font-size: 21px;
+
+        line-height: 1.5;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    /* ================= INFO ================= */
+
+    .info {
+
+        margin: 8px 0;
+
+        color: #555;
+
+        font-size: 14px;
+
+        line-height: 1.5;
+    }
+
+
+    .info strong {
+
+        color: #222;
+    }
+
+
+    /* ================= CONTENT SECTIONS ================= */
+
+    .section {
+
+        margin-top: 22px;
+
+        padding-top: 18px;
+
+        border-top: 1px solid #e8edf4;
+    }
+
+
+    .section h3 {
+
+        color: #172b4d;
+
+        margin: 0 0 10px;
+
+        font-size: 17px;
+    }
+
+
+    .section p {
+
+        margin: 0;
+
+        color: #555;
+
+        line-height: 1.7;
+
+        white-space: pre-wrap;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    /* ================= DELETE BUTTON ================= */
+
+    .delete-button {
+
+        margin-top: 20px;
+
+        background: #dc3545;
+
+        color: white;
+
+        border: none;
+
+        padding: 10px 18px;
+
+        border-radius: 6px;
+
+        cursor: pointer;
+
+        font-family: inherit;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+    }
+
+
+    .delete-button:hover {
+
+        background: #b02a37;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* ================= EMPTY ================= */
+
+    .empty {
+
+        background: white;
+
+        padding: 30px;
+
+        border-radius: 10px;
+
+        text-align: center;
+
+        color: #777;
+
+        box-shadow:
+                0 3px 12px rgba(23,43,77,0.08);
+    }
+
+
+    .empty h3 {
+
+        color: #172b4d;
+
+        margin-top: 0;
+    }
+
+
+    /* ================= TABLET ================= */
+
+    @media (max-width: 900px) {
+
+        .navbar {
+
+            padding: 12px 25px;
+        }
+
+
+        .container {
+
+            width: 94%;
+
+            margin: 30px auto;
+        }
+
+
+        .container h1 {
+
+            font-size: 26px;
+        }
+
+    }
+
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 700px) {
+
+        .navbar {
+
+            padding: 12px 18px;
+
+            gap: 12px;
+        }
+
+
+        .brand-text p {
+
+            display: none;
+        }
+
+
+        .brand-text h2 {
+
+            font-size: 19px;
+        }
+
+
+        .back-button {
+
+            padding: 8px 11px;
+
+            font-size: 12px;
+        }
+
+
+        .container {
+
+            width: 94%;
+
+            margin: 25px auto;
+        }
+
+
+        .container h1 {
+
+            font-size: 24px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .experience-card {
+
+            padding: 20px;
+
+            margin-bottom: 16px;
+
+            border-radius: 10px;
+        }
+
+
+        .experience-card h2 {
+
+            font-size: 18px;
+
+            line-height: 1.45;
+
+            margin-bottom: 15px;
+        }
+
+
+        .info {
+
+            font-size: 13px;
+
+            margin: 7px 0;
+        }
+
+
+        .section {
+
+            margin-top: 18px;
+
+            padding-top: 15px;
+        }
+
+
+        .section h3 {
+
+            font-size: 16px;
+        }
+
+
+        .section p {
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        .delete-button {
+
+            width: 100%;
+
+            padding: 10px;
+
+            font-size: 13px;
+        }
+
+
+        .empty {
+
+            padding: 25px 18px;
+        }
+
+    }
+
+
+    /* ================= SMALL MOBILE ================= */
+
+    @media (max-width: 450px) {
+
+        .navbar {
+
+            padding: 10px 14px;
+        }
+
+
+        .brand {
+
+            gap: 9px;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            font-size: 18px;
+
+            border-radius: 8px;
+        }
+
+
+        .brand-text h2 {
+
+            font-size: 17px;
+        }
+
+
+        .back-button {
+
+            padding: 7px 9px;
+
+            font-size: 11px;
+        }
+
+
+        .container {
+
+            width: 94%;
+
+            margin: 20px auto;
+        }
+
+
+        .container h1 {
+
+            font-size: 22px;
+        }
+
+
+        .experience-card {
+
+            padding: 17px;
+        }
+
+
+        .experience-card h2 {
+
+            font-size: 17px;
+        }
+
+
+        .info {
+
+            font-size: 12px;
+        }
+
+
+        .section p {
+
+            font-size: 12px;
+        }
+
+
+        .delete-button {
+
+            font-size: 12px;
+
+            padding: 9px;
+        }
+
+    }
+
+
+    /* ================= VERY SMALL MOBILE ================= */
+
+    @media (max-width: 350px) {
+
+        .navbar {
+
+            flex-direction: column;
+
+            align-items: stretch;
+
+            padding: 12px;
+        }
+
+
+        .back-button {
+
+            width: 100%;
+
+            text-align: center;
+
+            padding: 9px;
+        }
+
+
+        .container {
+
+            width: 94%;
+
+            margin: 18px auto;
+        }
+
+
+        .experience-card {
+
+            padding: 15px;
+        }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<div class="navbar">
+
+
+  <div class="brand">
+
+    <div class="brand-icon">
+      🎓
+    </div>
+
+
+    <div class="brand-text">
+
+      <h2>
+        IESP Admin Panel
+      </h2>
+
+      <p>
+        Interview & Employment Support Platform
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <a href="/admin/dashboard"
+     class="back-button">
+
+    ← Dashboard
+
+  </a>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+  <h1>
+    💼 Interview Experiences
+  </h1>
+
+
+  <div th:if="${#lists.isEmpty(experiences)}"
+       class="empty">
+
+    <h3>
+      No Interview Experiences Found
+    </h3>
+
+    <p>
+      No interview experiences have been submitted yet.
+    </p>
+
+  </div>
+
+
+  <div th:each="experience : ${experiences}"
+       class="experience-card">
+
+
+    <h2 th:text="${experience.company}">
+      Company Name
+    </h2>
+
+
+    <div class="info">
+
+      <strong>Role:</strong>
+
+      <span th:text="${experience.role}">
+                Software Developer
+            </span>
+
+    </div>
+
+
+    <div class="info">
+
+      <strong>Technology:</strong>
+
+      <span th:text="${experience.technology}">
+                Java
+            </span>
+
+    </div>
+
+
+    <div class="info">
+
+      <strong>Result:</strong>
+
+      <span th:text="${experience.result}">
+                Selected
+            </span>
+
+    </div>
+
+
+    <div class="info">
+
+      <strong>Shared By:</strong>
+
+      <span th:text="${experience.user.name}">
+                User Name
+            </span>
+
+    </div>
+
+
+    <div class="section">
+
+      <h3>
+        Interview Questions
+      </h3>
+
+      <p th:text="${experience.questions}">
+        Interview questions...
+      </p>
+
+    </div>
+
+
+    <div class="section">
+
+      <h3>
+        Interview Experience
+      </h3>
+
+      <p th:text="${experience.experience}">
+        Interview experience...
+      </p>
+
+    </div>
+
+
+    <form th:action="@{/admin/experiences/delete/{id}(id=${experience.id})}"
+          method="post"
+          onsubmit="return confirm('Are you sure you want to delete this interview experience?');">
+
+
+      <input type="hidden"
+             th:name="${_csrf.parameterName}"
+             th:value="${_csrf.token}">
+
+
+      <button type="submit"
+              class="delete-button">
+
+        🗑 Delete Experience
+
+      </button>
+
+
+    </form>
+
+
+  </div>
+
+
+</div>
+
+
+</body>
+
+</html>

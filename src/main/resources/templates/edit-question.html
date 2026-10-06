@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Edit Question | IESP</title>
+
+  <style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f4f7fb;
+        color: #172b4d;
+    }
+
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+
+        min-height: 72px;
+
+        background: linear-gradient(
+                135deg,
+                #172b4d,
+                #23448f
+        );
+
+        color: white;
+
+        padding: 12px 45px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 20px;
+
+        box-shadow:
+                0 3px 12px rgba(0,0,0,0.15);
+    }
+
+
+    .brand {
+
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        min-width: 0;
+    }
+
+
+    .brand-icon {
+
+        width: 40px;
+        height: 40px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #1d5d8f;
+
+        border-radius: 10px;
+
+        font-size: 20px;
+    }
+
+
+    .brand h2 {
+
+        margin: 0;
+
+        font-size: 21px;
+
+        white-space: nowrap;
+    }
+
+
+    .brand p {
+
+        margin: 2px 0 0;
+
+        font-size: 11px;
+
+        color: #dbe7ff;
+
+        white-space: nowrap;
+    }
+
+
+    .back {
+
+        text-decoration: none;
+
+        color: white;
+
+        background: rgba(255,255,255,0.12);
+
+        border: 1px solid rgba(255,255,255,0.2);
+
+        padding: 9px 16px;
+
+        border-radius: 7px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+
+        white-space: nowrap;
+    }
+
+
+    .back:hover {
+
+        background: white;
+
+        color: #23448f;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* ================= MAIN CONTAINER ================= */
+
+    .container {
+
+        width: 92%;
+
+        max-width: 850px;
+
+        margin: 40px auto;
+    }
+
+
+    /* ================= FORM CARD ================= */
+
+    .form-card {
+
+        background: white;
+
+        padding: 35px;
+
+        border-radius: 15px;
+
+        border: 1px solid #e6ebf2;
+
+        box-shadow:
+                0 7px 25px rgba(23,43,77,0.08);
+    }
+
+
+    /* ================= HEADER ================= */
+
+    .page-header {
+
+        margin-bottom: 28px;
+
+        padding-bottom: 20px;
+
+        border-bottom: 1px solid #e8edf4;
+    }
+
+
+    .page-header h1 {
+
+        margin: 0 0 8px;
+
+        color: #172b4d;
+
+        font-size: 28px;
+
+        line-height: 1.3;
+    }
+
+
+    .page-header p {
+
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+    }
+
+
+    /* ================= FORM ================= */
+
+    .form-group {
+
+        margin-bottom: 20px;
+    }
+
+
+    label {
+
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #172b4d;
+
+        font-size: 14px;
+
+        font-weight: 600;
+    }
+
+
+    textarea,
+    select {
+
+        width: 100%;
+
+        padding: 13px 14px;
+
+        border: 1px solid #d6dce5;
+
+        border-radius: 8px;
+
+        background: #fbfcfe;
+
+        color: #172b4d;
+
+        font-family: inherit;
+
+        font-size: 14px;
+
+        outline: none;
+
+        transition: 0.25s;
+    }
+
+
+    textarea {
+
+        min-height: 130px;
+
+        resize: vertical;
+
+        line-height: 1.6;
+    }
+
+
+    select {
+
+        height: 46px;
+
+        cursor: pointer;
+    }
+
+
+    textarea:focus,
+    select:focus {
+
+        border-color: #23448f;
+
+        background: white;
+
+        box-shadow:
+                0 0 0 3px rgba(35,68,143,0.08);
+    }
+
+
+    /* ================= QUESTION ================= */
+
+    .question-field {
+
+        min-height: 110px;
+    }
+
+
+    /* ================= ANSWER ================= */
+
+    .answer-field {
+
+        min-height: 180px;
+    }
+
+
+    /* ================= BUTTONS ================= */
+
+    .buttons {
+
+        margin-top: 28px;
+
+        padding-top: 22px;
+
+        border-top: 1px solid #e8edf4;
+
+        display: flex;
+
+        gap: 10px;
+    }
+
+
+    button,
+    .cancel {
+
+        min-height: 44px;
+
+        padding: 11px 20px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        text-decoration: none;
+
+        cursor: pointer;
+
+        font-family: inherit;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+    }
+
+
+    button {
+
+        background: linear-gradient(
+                135deg,
+                #172b4d,
+                #23448f
+        );
+
+        color: white;
+
+        flex: 1;
+    }
+
+
+    button:hover {
+
+        transform: translateY(-1px);
+
+        box-shadow:
+                0 5px 15px rgba(35,68,143,0.20);
+    }
+
+
+    .cancel {
+
+        background: #eef2f7;
+
+        border: 1px solid #d6dce5;
+
+        color: #172b4d;
+
+        min-width: 120px;
+    }
+
+
+    .cancel:hover {
+
+        background: #e2e8f0;
+    }
+
+
+    /* ================= TABLET ================= */
+
+    @media (max-width: 900px) {
+
+        .navbar {
+
+            padding: 12px 25px;
+        }
+
+
+        .container {
+
+            width: 94%;
+
+            margin: 30px auto;
+        }
+
+    }
+
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 700px) {
+
+        .navbar {
+
+            min-height: auto;
+
+            padding: 12px 18px;
+
+            gap: 12px;
+        }
+
+
+        .brand p {
+
+            display: none;
+        }
+
+
+        .brand h2 {
+
+            font-size: 19px;
+        }
+
+
+        .back {
+
+            padding: 8px 11px;
+
+            font-size: 12px;
+        }
+
+
+        .container {
+
+            width: 94%;
+
+            margin: 25px auto;
+        }
+
+
+        .form-card {
+
+            padding: 25px 20px;
+
+            border-radius: 12px;
+        }
+
+
+        .page-header {
+
+            margin-bottom: 23px;
+
+            padding-bottom: 17px;
+        }
+
+
+        .page-header h1 {
+
+            font-size: 24px;
+        }
+
+
+        .page-header p {
+
+            font-size: 13px;
+        }
+
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+
+        textarea {
+
+            min-height: 120px;
+        }
+
+
+        .answer-field {
+
+            min-height: 160px;
+        }
+
+
+        .buttons {
+
+            flex-direction: column;
+
+            gap: 9px;
+        }
+
+
+        button,
+        .cancel {
+
+            width: 100%;
+        }
+
+    }
+
+
+    /* ================= SMALL MOBILE ================= */
+
+    @media (max-width: 450px) {
+
+        .navbar {
+
+            padding: 10px 14px;
+        }
+
+
+        .brand {
+
+            gap: 9px;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            font-size: 18px;
+
+            border-radius: 8px;
+        }
+
+
+        .brand h2 {
+
+            font-size: 17px;
+        }
+
+
+        .back {
+
+            padding: 7px 9px;
+
+            font-size: 11px;
+        }
+
+
+        .container {
+
+            width: 94%;
+
+            margin: 20px auto;
+        }
+
+
+        .form-card {
+
+            padding: 20px 15px;
+        }
+
+
+        .page-header h1 {
+
+            font-size: 22px;
+        }
+
+
+        .page-header p {
+
+            font-size: 12px;
+        }
+
+
+        label {
+
+            font-size: 13px;
+        }
+
+
+        textarea,
+        select {
+
+            font-size: 13px;
+        }
+
+
+        textarea {
+
+            padding: 12px;
+        }
+
+
+        .question-field {
+
+            min-height: 110px;
+        }
+
+
+        .answer-field {
+
+            min-height: 150px;
+        }
+
+    }
+
+
+    /* ================= VERY SMALL PHONES ================= */
+
+    @media (max-width: 350px) {
+
+        .navbar {
+
+            flex-direction: column;
+
+            align-items: stretch;
+        }
+
+
+        .back {
+
+            width: 100%;
+
+            text-align: center;
+        }
+
+
+        .form-card {
+
+            padding: 18px 13px;
+        }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<div class="navbar">
+
+
+  <div class="brand">
+
+    <div class="brand-icon">
+      🎓
+    </div>
+
+    <div>
+
+      <h2>IESP</h2>
+
+      <p>
+        Interview & Employment Support Platform
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <a href="/questions"
+     class="back">
+
+    ← Back to Questions
+
+  </a>
+
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+  <div class="form-card">
+
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="page-header">
+
+      <h1>
+        ✏️ Edit Question
+      </h1>
+
+      <p>
+        Update the interview question, category, difficulty and answer.
+      </p>
+
+    </div>
+
+
+    <!-- ================= FORM ================= -->
+
+    <form th:action="@{/questions/update/{id}(id=${questionForm.id})}"
+          th:object="${questionForm}"
+          method="post">
+
+
+      <!-- CSRF TOKEN -->
+
+      <input type="hidden"
+             th:name="${_csrf.parameterName}"
+             th:value="${_csrf.token}">
+
+
+      <!-- QUESTION -->
+
+      <div class="form-group">
+
+        <label>
+          Interview Question
+        </label>
+
+        <textarea th:field="*{question}"
+                  class="question-field"
+                  placeholder="Enter the interview question..."
+                  required>
+                </textarea>
+
+      </div>
+
+
+      <!-- CATEGORY -->
+
+      <div class="form-group">
+
+        <label>
+          Category
+        </label>
+
+        <select th:field="*{category}"
+                required>
+
+          <option value="">
+            Select Category
+          </option>
+
+          <option value="Java">
+            Java
+          </option>
+
+          <option value="Spring Boot">
+            Spring Boot
+          </option>
+
+          <option value="SQL">
+            SQL
+          </option>
+
+          <option value="DSA">
+            DSA
+          </option>
+
+          <option value="HR">
+            HR
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- DIFFICULTY -->
+
+      <div class="form-group">
+
+        <label>
+          Difficulty
+        </label>
+
+        <select th:field="*{difficulty}"
+                required>
+
+          <option value="">
+            Select Difficulty
+          </option>
+
+          <option value="Easy">
+            Easy
+          </option>
+
+          <option value="Medium">
+            Medium
+          </option>
+
+          <option value="Hard">
+            Hard
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- ANSWER -->
+
+      <div class="form-group">
+
+        <label>
+          Answer / Explanation
+        </label>
+
+        <textarea th:field="*{answer}"
+                  class="answer-field"
+                  placeholder="Enter the answer or explanation..."
+                  required>
+                </textarea>
+
+      </div>
+
+
+      <!-- BUTTONS -->
+
+      <div class="buttons">
+
+        <button type="submit">
+
+          ✓ Update Question
+
+        </button>
+
+
+        <a href="/questions"
+           class="cancel">
+
+          Cancel
+
+        </a>
+
+      </div>
+
+
+    </form>
+
+  </div>
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Question Bank | IESP</title>
+
+  <style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f4f7fb;
+        color: #172b4d;
+    }
+
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+
+        height: 72px;
+
+        background: linear-gradient(
+                135deg,
+                #172b4d,
+                #23448f
+        );
+
+        color: white;
+
+        padding: 0 45px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        box-shadow:
+                0 3px 12px rgba(0,0,0,0.15);
+    }
+
+
+    .brand {
+
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+    }
+
+
+    .brand-icon {
+
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #1d5d8f;
+
+        border-radius: 10px;
+
+        font-size: 20px;
+    }
+
+
+    .brand h2 {
+
+        margin: 0;
+
+        font-size: 21px;
+    }
+
+
+    .brand p {
+
+        margin: 2px 0 0;
+
+        font-size: 11px;
+
+        color: #dbe7ff;
+    }
+
+
+    .nav-buttons {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+    }
+
+
+    .nav-button {
+
+        text-decoration: none;
+
+        color: white;
+
+        padding: 9px 16px;
+
+        border-radius: 7px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+    }
+
+
+    .dashboard {
+
+        background: rgba(255,255,255,0.12);
+
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+
+    .dashboard:hover {
+
+        background: white;
+
+        color: #23448f;
+
+        transform: translateY(-1px);
+    }
+
+
+    .add {
+
+        background: #1d8f5a;
+
+        border: 1px solid #1d8f5a;
+    }
+
+
+    .add:hover {
+
+        background: #167447;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* ================= CONTAINER ================= */
+
+    .container {
+
+        width: 92%;
+
+        max-width: 1100px;
+
+        margin: 40px auto;
+    }
+
+
+    /* ================= PAGE HEADER ================= */
+
+    .page-header {
+
+        margin-bottom: 25px;
+    }
+
+
+    .page-header h1 {
+
+        margin: 0 0 8px;
+
+        color: #172b4d;
+
+        font-size: 30px;
+    }
+
+
+    .page-header p {
+
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+    }
+
+
+    /* ================= SEARCH ================= */
+
+    .search-section {
+
+        background: white;
+
+        padding: 20px;
+
+        border-radius: 14px;
+
+        margin-bottom: 28px;
+
+        border: 1px solid #e6ebf2;
+
+        box-shadow:
+                0 6px 20px rgba(23,43,77,0.08);
+    }
+
+
+    .search-title {
+
+        margin: 0 0 12px;
+
+        font-size: 15px;
+
+        font-weight: 600;
+
+        color: #172b4d;
+    }
+
+
+    .search-form {
+
+        display: flex;
+
+        gap: 10px;
+    }
+
+
+    .search-input {
+
+        flex: 1;
+
+        height: 46px;
+
+        padding: 12px 14px;
+
+        border: 1px solid #d6dce5;
+
+        border-radius: 8px;
+
+        background: #fbfcfe;
+
+        color: #172b4d;
+
+        font-family: inherit;
+
+        font-size: 14px;
+
+        outline: none;
+
+        transition: 0.25s;
+    }
+
+
+    .search-input:focus {
+
+        border-color: #23448f;
+
+        background: white;
+
+        box-shadow:
+                0 0 0 3px rgba(35,68,143,0.08);
+    }
+
+
+    .search-input::placeholder {
+
+        color: #94a3b8;
+    }
+
+
+    .search-button {
+
+        height: 46px;
+
+        padding: 0 22px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        background: linear-gradient(
+                135deg,
+                #172b4d,
+                #23448f
+        );
+
+        color: white;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+    }
+
+
+    .search-button:hover {
+
+        transform: translateY(-1px);
+
+        box-shadow:
+                0 5px 15px rgba(35,68,143,0.20);
+    }
+
+
+    .clear-button {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        height: 46px;
+
+        padding: 0 20px;
+
+        background: #eef2f7;
+
+        border: 1px solid #d6dce5;
+
+        color: #172b4d;
+
+        text-decoration: none;
+
+        border-radius: 8px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+    }
+
+
+    .clear-button:hover {
+
+        background: #e2e8f0;
+    }
+
+
+    /* ================= QUESTION CARD ================= */
+
+    .question-card {
+
+        background: white;
+
+        padding: 30px;
+
+        margin-bottom: 22px;
+
+        border-radius: 15px;
+
+        border: 1px solid #e6ebf2;
+
+        box-shadow:
+                0 7px 25px rgba(23,43,77,0.08);
+
+        transition: 0.3s;
+    }
+
+
+    .question-card:hover {
+
+        transform: translateY(-2px);
+
+        box-shadow:
+                0 10px 30px rgba(23,43,77,0.11);
+    }
+
+
+    .question-card h2 {
+
+        margin: 0 0 10px;
+
+        color: #172b4d;
+
+        font-size: 21px;
+
+        line-height: 1.5;
+    }
+
+
+    /* ================= SHARED BY ================= */
+
+    .shared-by {
+
+        color: #64748b;
+
+        font-size: 13px;
+
+        margin-bottom: 20px;
+
+        padding-bottom: 15px;
+
+        border-bottom: 1px solid #e8edf4;
+    }
+
+
+    .shared-by strong {
+
+        color: #23448f;
+    }
+
+
+    /* ================= BADGES ================= */
+
+    .badges {
+
+        margin: 15px 0 22px;
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 8px;
+    }
+
+
+    .badge {
+
+        display: inline-block;
+
+        padding: 6px 13px;
+
+        border-radius: 20px;
+
+        font-size: 12px;
+
+        font-weight: 700;
+    }
+
+
+    .category {
+
+        background: #eef4fa;
+
+        color: #23448f;
+
+        border: 1px solid #d8e5f3;
+    }
+
+
+    .difficulty {
+
+        background: #fff7df;
+
+        color: #9a6b00;
+
+        border: 1px solid #f1df9e;
+    }
+
+
+    /* ================= ANSWER ================= */
+
+    .answer-label {
+
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #172b4d;
+
+        font-size: 14px;
+
+        font-weight: 700;
+    }
+
+
+    .answer {
+
+        background: #f8fafc;
+
+        padding: 16px;
+
+        border-radius: 8px;
+
+        border: 1px solid #e8edf4;
+
+        color: #475569;
+
+        font-size: 14px;
+
+        line-height: 1.7;
+
+        white-space: pre-wrap;
+    }
+
+
+    /* ================= ACTIONS ================= */
+
+    .actions {
+
+        margin-top: 22px;
+
+        padding-top: 18px;
+
+        border-top: 1px solid #e8edf4;
+
+        display: flex;
+
+        gap: 10px;
+    }
+
+
+    .edit,
+    .delete {
+
+        text-decoration: none;
+
+        color: white;
+
+        padding: 9px 18px;
+
+        border-radius: 7px;
+
+        font-size: 13px;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+    }
+
+
+    .edit {
+
+        background: #23448f;
+    }
+
+
+    .edit:hover {
+
+        background: #172b4d;
+
+        transform: translateY(-1px);
+    }
+
+
+    .delete {
+
+        background: #dc3545;
+    }
+
+
+    .delete:hover {
+
+        background: #bb2d3b;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* ================= EMPTY ================= */
+
+    .empty {
+
+        background: white;
+
+        padding: 55px 30px;
+
+        text-align: center;
+
+        border-radius: 15px;
+
+        border: 1px solid #e6ebf2;
+
+        box-shadow:
+                0 7px 25px rgba(23,43,77,0.08);
+    }
+
+
+    .empty-icon {
+
+        font-size: 45px;
+
+        margin-bottom: 12px;
+    }
+
+
+    .empty h2 {
+
+        margin: 0 0 8px;
+
+        color: #172b4d;
+
+        font-size: 23px;
+    }
+
+
+    .empty p {
+
+        margin: 0 0 25px;
+
+        color: #64748b;
+
+        font-size: 14px;
+    }
+
+
+    .empty .add-question-button {
+
+        display: inline-block;
+
+        background: linear-gradient(
+                135deg,
+                #172b4d,
+                #23448f
+        );
+
+        color: white;
+
+        text-decoration: none;
+
+        padding: 11px 20px;
+
+        border-radius: 8px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+    }
+
+
+    .empty .add-question-button:hover {
+
+        transform: translateY(-2px);
+
+        box-shadow:
+                0 6px 15px rgba(35,68,143,0.20);
+    }
+
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 700px) {
+
+        .navbar {
+
+            padding: 0 20px;
+        }
+
+
+        .brand p {
+
+            display: none;
+        }
+
+
+        .brand h2 {
+
+            font-size: 18px;
+        }
+
+
+        .nav-buttons {
+
+            gap: 6px;
+        }
+
+
+        .nav-button {
+
+            padding: 8px 11px;
+
+            font-size: 12px;
+        }
+
+
+        .container {
+
+            width: 94%;
+
+            margin: 25px auto;
+        }
+
+
+        .page-header h1 {
+
+            font-size: 25px;
+        }
+
+
+        .search-form {
+
+            flex-direction: column;
+        }
+
+
+        .search-button,
+        .clear-button {
+
+            width: 100%;
+        }
+
+
+        .question-card {
+
+            padding: 23px 20px;
+        }
+
+
+        .question-card h2 {
+
+            font-size: 19px;
+        }
+
+    }
+
+
+    @media (max-width: 450px) {
+
+        .navbar {
+
+            height: 65px;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            font-size: 18px;
+        }
+
+
+        .brand h2 {
+
+            font-size: 17px;
+        }
+
+
+        .nav-button {
+
+            padding: 7px 9px;
+
+            font-size: 11px;
+        }
+
+
+        .container {
+
+            width: 95%;
+        }
+
+
+        .page-header h1 {
+
+            font-size: 22px;
+        }
+
+
+        .question-card {
+
+            padding: 20px 16px;
+        }
+
+
+        .actions {
+
+            flex-direction: column;
+        }
+
+
+        .edit,
+        .delete {
+
+            text-align: center;
+        }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<div class="navbar">
+
+
+  <div class="brand">
+
+    <div class="brand-icon">
+      🎓
+    </div>
+
+    <div>
+
+      <h2>IESP</h2>
+
+      <p>
+        Interview & Employment Support Platform
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="nav-buttons">
+
+    <a href="/dashboard"
+       class="nav-button dashboard">
+
+      Dashboard
+
+    </a>
+
+
+    <a href="/questions/add"
+       class="nav-button add">
+
+      + Add Question
+
+    </a>
+
+  </div>
+
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+  <!-- PAGE HEADER -->
+
+  <div class="page-header">
+
+    <h1>
+      📚 Question Bank
+    </h1>
+
+    <p>
+      Practice commonly asked technical and HR interview questions.
+    </p>
+
+  </div>
+
+
+  <!-- ================= SEARCH ================= -->
+
+  <div class="search-section">
+
+    <div class="search-title">
+      🔍 Search Interview Questions
+    </div>
+
+
+    <form action="/questions"
+          method="get"
+          class="search-form">
+
+
+      <input type="text"
+             name="search"
+             class="search-input"
+             placeholder="Search by question, category or difficulty..."
+             th:value="${search}">
+
+
+      <button type="submit"
+              class="search-button">
+
+        Search
+
+      </button>
+
+
+      <a href="/questions"
+         class="clear-button">
+
+        Clear
+
+      </a>
+
+
+    </form>
+
+  </div>
+
+
+  <!-- ================= QUESTIONS ================= -->
+
+  <div th:if="${not #lists.isEmpty(questions)}">
+
+
+    <div class="question-card"
+         th:each="question : ${questions}">
+
+
+      <!-- QUESTION -->
+
+      <h2 th:text="${question.question}">
+
+        Question
+
+      </h2>
+
+
+      <!-- SHARED BY -->
+
+      <div class="shared-by">
+
+        Shared by:
+
+        <strong th:text="${question.user.name}">
+
+          User Name
+
+        </strong>
+
+      </div>
+
+
+      <!-- BADGES -->
+
+      <div class="badges">
+
+
+                <span class="badge category"
+                      th:text="${question.category}">
+
+                    Java
+
+                </span>
+
+
+        <span class="badge difficulty"
+              th:text="${question.difficulty}">
+
+                    Easy
+
+                </span>
+
+
+      </div>
+
+
+      <!-- ANSWER -->
+
+      <div>
+
+                <span class="answer-label">
+
+                    Answer
+
+                </span>
+
+
+        <div class="answer"
+             th:text="${question.answer}">
+
+          Answer
+
+        </div>
+
+      </div>
+
+
+      <!-- ACTIONS -->
+
+      <div class="actions"
+           th:if="${question.user.email == #authentication.name}">
+
+
+        <a th:href="@{/questions/edit/{id}(id=${question.id})}"
+           class="edit">
+
+          ✏ Edit
+
+        </a>
+
+
+        <a th:href="@{/questions/delete/{id}(id=${question.id})}"
+           class="delete"
+           onclick="return confirm('Are you sure you want to delete this question?');">
+
+          🗑 Delete
+
+        </a>
+
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= EMPTY ================= -->
+
+  <div th:if="${#lists.isEmpty(questions)}"
+       class="empty">
+
+
+    <div class="empty-icon">
+      📚
+    </div>
+
+
+    <h2>
+      No Questions Available
+    </h2>
+
+
+    <p>
+      Start building your interview preparation question bank.
+    </p>
+
+
+    <a href="/questions/add"
+       class="add-question-button">
+
+      + Add Question
+
+    </a>
+
+
+  </div>
+
+
+</div>
+
+
+</body>
+
+</html>
