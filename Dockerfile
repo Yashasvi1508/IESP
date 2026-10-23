@@ -12,6 +12,13 @@ RUN mvn -DskipTests package
 # Stage 2: Run the application
 FROM eclipse-temurin:22-jre
 
+# Update the operating system's certificate store
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates \
+    && update-ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
